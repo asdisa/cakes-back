@@ -1,3 +1,13 @@
+<<<<<<< HEAD:cakes/urls.py
+
+from django.urls import path
+from .views import ListUnitsView
+
+
+urlpatterns = [
+    path('units/', ListUnitsView.as_view(), name="units")
+]
+=======
 """api URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -14,9 +24,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path, include
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path('api/', include('cakes.urls'))
+     path('', include('cakes.urls'))
 ]
+>>>>>>> fcd49909d1fef438d62388e87bef3a9b767b32ca:api/urls.py
