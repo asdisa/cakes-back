@@ -25,7 +25,7 @@ SECRET_KEY = '2ta*(0yx1%=3r&gkyi_rsxp%o^(r33^dr-m+sm!5#4_cs--$u8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '78.46.99.178']
+ALLOWED_HOSTS = ['0.0.0.0', '78.46.99.178', 'cakes.asdisa.me']
 
 
 # Application definition
