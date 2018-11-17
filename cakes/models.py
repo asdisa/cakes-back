@@ -9,7 +9,16 @@ class Unit(models.Model):
     in_grams = models.FloatField(default=1.0)    
 
     def __str__(self):
-        return "{} - {}".format(self.short_name, str(self.in_gramms))
+        return f"{self.short_name} - {str(self.in_grams)}"
+
+
+class Ingredient(models.Model):
+    name = models.CharField(max_length=200)
+    price_per_unit = models.FloatField()
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Image_container(models.Model):

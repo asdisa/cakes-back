@@ -7,6 +7,15 @@ class UnitSerializer(serializers.ModelSerializer):
         model = Unit
         fields = ("id", "short_name", "full_name", "in_grams")
 
+
+class IngredientSerializer(serializers.ModelSerializer):
+    unit = UnitSerializer()
+    
+    class Meta:
+        model = Ingredient
+        fields = ("id", "price_per_unit", "unit")
+
+
 class ImageContainerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image_container
