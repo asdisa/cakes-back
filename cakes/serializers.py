@@ -1,8 +1,13 @@
 from rest_framework import serializers
-from .models import Units
+from .models import *
 
 
-class UnitsSerializer(serializers.ModelSerializer):
+class UnitSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Units
+        model = Unit
         fields = ("id", "short_name", "full_name", "in_grams")
+
+class ImageContainerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image_container
+        fields = ("id", "img_small", "img_medium", "img_large")

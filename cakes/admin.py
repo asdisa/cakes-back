@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import Units
+from .models import *
 
-admin.site.register(Units)
+admin.site.register(Unit)
+admin.site.register(Image_container)
