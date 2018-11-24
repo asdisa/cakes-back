@@ -4,3 +4,5 @@ from .models import *
 admin.site.register(Unit)
 admin.site.register(Image_container)
 admin.site.register(Ingredient)
+admin.site.register(Tag)
+admin.site.register(Recipe)
