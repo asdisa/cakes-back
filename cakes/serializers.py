@@ -12,7 +12,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Ingredient
-        fields = ("id", "price_per_unit", "unit")
+        fields = ("id", "price_per_gram", "unit")
 
 class ImageContainerSerializer(serializers.ModelSerializer):
    
@@ -31,25 +31,24 @@ class TagSerializer(serializers.ModelSerializer):
 class UsageSerializer(serializers.HyperlinkedModelSerializer):
 
     id = serializers.ReadOnlyField(source='ingredient.id')
-    name = serializers.ReadOnlyField(source='ingredient.name')
-    price_per_unit = serializers.ReadOnlyField(source='price_per_unit.name')
-
-
+    unit = UnitSerializer(source='ingredient.unit')
+    
     class Meta:
         model = Usage
 
-        fields = ('id', 'name', 'price_per_unit', 'amount_in_units', )
+        fields = ("id", "amount_in_units", "unit", )
 
 
 
 class RecipeSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
     image_container = ImageContainerSerializer()
+    ingredients = UsageSerializer(source='usage_set', many=True)
 
     class Meta:
         model = Recipe  
 
-        fields = ("id", "title", "steps", "tags", "image_container")
+        fields = ("id", "title", "steps", "tags", "ingredients", "image_container")
 
 
 
