@@ -18,7 +18,4 @@ class UnitList(generics.ListCreateAPIView):
 class UnitDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
- 
-    '''def get_queryset(self):
-        return Unit.objects.all().filter(id=self.request.id)
-'''
+
