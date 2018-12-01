@@ -5,7 +5,6 @@ from units.serializers import UnitSerializer
 from units.models import Unit
 
 class IngredientSerializer(serializers.ModelSerializer):
-    #unit = UnitSerializer()
     unit = serializers.SlugRelatedField(
         slug_field='id',
         queryset=Unit.objects.all()

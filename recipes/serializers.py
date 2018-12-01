@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
-from ingredients.serializers import UnitSerializer
-
+from ingredients.serializers import IngredientSerializer
+from drf_writable_nested import WritableNestedModelSerializer
 
 class ImageContainerSerializer(serializers.ModelSerializer):
     img_medium = serializers.CharField(allow_blank=True)
@@ -12,33 +12,50 @@ class ImageContainerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UsageSerializer(serializers.HyperlinkedModelSerializer):
-
-    id = serializers.ReadOnlyField(source='ingredient.id')
-    price_per_gram = serializers.ReadOnlyField(source='ingredient.price_per_gram')
-    unit = UnitSerializer(source='ingredient.unit')
+class UsageSerializer(WritableNestedModelSerializer):
+    ingredient = IngredientSerializer()
     
     class Meta:
         model = Usage
+        fields = ("ingredient", "amount_in_units")
+        extra_kwargs = {
+            'recipe_id': {
+                'validators': []
+            }
+        }
 
-        fields = ("id", "amount_in_units", "price_per_gram", "unit", )
+    '''    
+    def create(self, validated_data):
+        ingredient_data = validated_data.pop('ingredient')
+        ingredient = IngredientSerializer.create(IngredientSerializer(), validated_data=ingredient_data)
+        
+        usage, created = Usage.objects.update_or_create(
+            ingredient=ingredient,
+            amount_in_units=validated_data.pop('amount_in_units'))
+            
+        return usage
+        '''
 
 
 
-class RecipeSerializer(serializers.ModelSerializer):
+class RecipeSerializer(WritableNestedModelSerializer):
     image_container = ImageContainerSerializer(required=False)
-    #ingredients = UsageSerializer(source='usage_set', many=True)
-
+    ingredients = UsageSerializer(source='usage_set', many=True)
+    
     class Meta:
         model = Recipe  
-        fields = ("id", "title", "steps", "tags", "image_container")#, "ingredients")
+        fields = ("id", "title", "steps", "tags", "image_container", "ingredients")
 
-
+    '''
     def create(self, validated_data):
         image_container_data = validated_data.pop('image_container')
         image_container = ImageContainerSerializer.create(ImageContainerSerializer(), validated_data=image_container_data)
-            
+        
+        ingredients_data = validated_data.pop('usage_set')
+        ingredients = [UsageSerializer.create(UsageSerializer(partial=True), validated_data=ingredient_data) for ingredient_data in ingredients_data]
+        print(f'\n\n\n{ingredients}\n\n\n')
         recipe, created = Recipe.objects.update_or_create(
+            ingredients=ingredients,
             image_container=image_container,
             title=validated_data.pop('title'),
             steps=validated_data.pop('steps'),
@@ -70,4 +87,5 @@ class RecipeSerializer(serializers.ModelSerializer):
         image_container.save()
 
         return instance
+'''
 

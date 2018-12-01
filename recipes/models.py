@@ -27,6 +27,6 @@ class Recipe(models.Model):
 
 
 class Usage(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, null=True)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     amount_in_units = models.FloatField()
