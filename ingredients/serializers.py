@@ -15,4 +15,3 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = ('id', 'name', 'price_per_gram', 'unit')
 
-
